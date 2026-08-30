@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useClient, useCreateClient, useDeleteClient, useUpdateClient } from "./use-clients";
 import { Button } from "@/shared/ui/Button";
 import { Field } from "@/shared/ui/Field";
+import { Blueprint } from "@/shared/ui/Blueprint";
 
 export function ClientFormPage() {
   const { id } = useParams();
@@ -50,7 +51,7 @@ export function ClientFormPage() {
   return (
     <div className="flex max-w-lg flex-col gap-6">
       <h1 className="text-3xl font-semibold text-steel-900">{isEdit ? "Editar cliente" : "Novo cliente"}</h1>
-      <div className="flex flex-col gap-4">
+      <Blueprint className="flex flex-col gap-4 bg-white p-4">
         <Field id="name" label="Nome" value={name} onChange={(e) => setName(e.target.value)} />
         <Field id="phone" label="Telefone" value={phone} onChange={(e) => setPhone(e.target.value)} />
         <Field id="email" label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -73,7 +74,7 @@ export function ClientFormPage() {
             </Button>
           )}
         </div>
-      </div>
+      </Blueprint>
     </div>
   );
 }

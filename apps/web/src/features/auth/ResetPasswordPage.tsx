@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useResetPassword } from "./use-session";
 import { Button } from "@/shared/ui/Button";
 import { Field } from "@/shared/ui/Field";
+import { Blueprint } from "@/shared/ui/Blueprint";
 
 export function ResetPasswordPage() {
   const [params] = useSearchParams();
@@ -33,15 +34,15 @@ export function ResetPasswordPage() {
         <h1 className="text-4xl font-semibold text-steel-900">Nova password</h1>
         {resetPassword.isSuccess ? (
           <>
-            <p className="mt-8 rounded-lg border border-concrete-300 bg-white p-4 text-steel-700">
+            <Blueprint className="mt-8 bg-white p-4 text-steel-700">
               Password reposta. Todas as sessões anteriores foram terminadas — entre com a nova password.
-            </p>
+            </Blueprint>
             <Link to="/login" className="mt-6 inline-block font-medium text-steel-700 hover:text-steel-900">
               Entrar
             </Link>
           </>
         ) : (
-          <div className="mt-8 flex flex-col gap-4">
+          <Blueprint className="mt-8 flex flex-col gap-4 bg-white p-4">
             <Field id="password" label="Nova password" type="password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <Field
               id="confirm" label="Confirmar password" type="password" autoComplete="new-password"
@@ -56,7 +57,7 @@ export function ResetPasswordPage() {
             >
               {resetPassword.isPending ? "A repor…" : "Repor password"}
             </Button>
-          </div>
+          </Blueprint>
         )}
       </div>
     </main>

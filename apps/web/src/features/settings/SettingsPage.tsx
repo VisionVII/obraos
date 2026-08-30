@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useChangePassword, useSession } from "@/features/auth/use-session";
 import { Button } from "@/shared/ui/Button";
 import { Field } from "@/shared/ui/Field";
+import { Blueprint } from "@/shared/ui/Blueprint";
+import { Tag } from "@/shared/ui/Tag";
 
 const ROLE_LABELS: Record<string, string> = {
   owner: "Dono", admin: "Administrador", manager: "Gestor",
@@ -23,7 +25,7 @@ function ChangePasswordForm() {
   }
 
   return (
-    <div className="flex max-w-sm flex-col gap-4">
+    <Blueprint className="flex max-w-sm flex-col gap-4 bg-white p-4">
       <Field id="currentPassword" label="Password atual" type="password" autoComplete="current-password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
       <Field id="newPassword" label="Nova password" type="password" autoComplete="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
       <Field
@@ -40,7 +42,7 @@ function ChangePasswordForm() {
       >
         {changePassword.isPending ? "A guardar…" : "Mudar password"}
       </Button>
-    </div>
+    </Blueprint>
   );
 }
 
@@ -54,13 +56,15 @@ export function SettingsPage() {
 
       <section className="flex flex-col gap-3">
         <h2 className="text-xl font-semibold text-steel-500">A sua conta</h2>
-        <dl className="grid max-w-sm grid-cols-[auto_1fr] gap-x-4 gap-y-2 rounded-lg border border-concrete-200 bg-white p-4 text-sm">
-          <dt className="text-steel-500">Nome</dt><dd className="text-steel-900">{user.name}</dd>
-          <dt className="text-steel-500">Email</dt><dd className="text-steel-900">{user.email}</dd>
-          <dt className="text-steel-500">Função</dt><dd className="text-steel-900">{ROLE_LABELS[user.role] ?? user.role}</dd>
-          <dt className="text-steel-500">Email verificado</dt>
-          <dd className={user.emailVerified ? "text-ok" : "text-warn"}>{user.emailVerified ? "Sim" : "Não"}</dd>
-        </dl>
+        <Blueprint className="max-w-sm bg-white p-4">
+          <dl className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-2 text-sm">
+            <dt className="text-steel-500">Nome</dt><dd className="text-steel-900">{user.name}</dd>
+            <dt className="text-steel-500">Email</dt><dd className="text-steel-900">{user.email}</dd>
+            <dt className="text-steel-500">Função</dt><dd className="text-steel-900">{ROLE_LABELS[user.role] ?? user.role}</dd>
+            <dt className="text-steel-500">Email verificado</dt>
+            <dd><Tag variant={user.emailVerified ? "ok" : "warn"}>{user.emailVerified ? "Sim" : "Não"}</Tag></dd>
+          </dl>
+        </Blueprint>
       </section>
 
       <section className="flex flex-col gap-3">

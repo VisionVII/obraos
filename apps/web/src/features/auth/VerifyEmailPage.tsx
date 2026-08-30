@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useResendVerification, useSession, useVerifyEmail } from "./use-session";
 import { Button } from "@/shared/ui/Button";
 import { Field } from "@/shared/ui/Field";
+import { Blueprint } from "@/shared/ui/Blueprint";
 
 export function VerifyEmailPage() {
   const [params] = useSearchParams();
@@ -40,9 +41,9 @@ export function VerifyEmailPage() {
               {token ? "Este link é inválido ou já expirou." : "Introduza o seu email para receber um novo link."}
             </p>
             {resend.isSuccess ? (
-              <p className="rounded-lg border border-concrete-300 bg-white p-4 text-steel-700">
+              <Blueprint className="bg-white p-4 text-steel-700">
                 Se a conta existir e ainda não estiver verificada, enviámos um novo link.
-              </p>
+              </Blueprint>
             ) : (
               <>
                 <Field

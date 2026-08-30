@@ -3,6 +3,7 @@ import { Permission, hasPermission } from "@obraos/shared";
 import { useSession } from "@/features/auth/use-session";
 import { useClients } from "./use-clients";
 import { buttonClassName } from "@/shared/ui/Button";
+import { Blueprint } from "@/shared/ui/Blueprint";
 
 export function ClientsPage() {
   const { data: user } = useSession();
@@ -24,24 +25,23 @@ export function ClientsPage() {
       {isError && <p role="alert" className="text-danger">{error.message}</p>}
 
       {clients && clients.length === 0 && (
-        <p className="rounded-lg border border-dashed border-concrete-300 p-6 text-center text-steel-500">
+        <Blueprint className="bg-white p-6 text-center text-steel-500">
           Ainda não tem clientes. Crie o primeiro para começar.
-        </p>
+        </Blueprint>
       )}
 
       {clients && clients.length > 0 && (
         <ul className="flex flex-col gap-2">
           {clients.map((c) => (
             <li key={c.id}>
-              <Link
-                to={`/app/clientes/${c.id}`}
-                className="flex flex-col gap-1 rounded-lg border border-concrete-200 bg-white p-4 transition-colors hover:border-steel-500"
-              >
-                <span className="font-semibold text-steel-900">{c.name}</span>
-                <span className="text-sm text-steel-500">
-                  {[c.phone, c.email].filter(Boolean).join(" · ") || "Sem contacto"}
-                </span>
-              </Link>
+              <Blueprint className="bg-white transition-colors hover:border-steel-500">
+                <Link to={`/app/clientes/${c.id}`} className="flex flex-col gap-1 p-4">
+                  <span className="font-semibold text-steel-900">{c.name}</span>
+                  <span className="text-sm text-steel-500">
+                    {[c.phone, c.email].filter(Boolean).join(" · ") || "Sem contacto"}
+                  </span>
+                </Link>
+              </Blueprint>
             </li>
           ))}
         </ul>

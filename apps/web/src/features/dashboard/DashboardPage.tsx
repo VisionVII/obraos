@@ -1,5 +1,6 @@
 import { useSession } from "@/features/auth/use-session";
 import { Stat } from "@/shared/ui/Stat";
+import { Blueprint } from "@/shared/ui/Blueprint";
 
 /** Fase 1 liga estes números à API. Aqui só a estrutura e os empty states. */
 export function DashboardPage() {
@@ -17,9 +18,9 @@ export function DashboardPage() {
       </div>
       <section>
         <h2 className="text-xl font-semibold text-steel-500">Hoje</h2>
-        <p className="mt-2 rounded-lg border border-dashed border-concrete-300 p-6 text-center text-steel-500">
+        <Blueprint className="mt-2 bg-white p-6 text-center text-steel-500">
           Sem nada agendado para hoje. Crie um cliente para começar.
-        </p>
+        </Blueprint>
       </section>
     </div>
   );

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRegister } from "./use-session";
 import { Button } from "@/shared/ui/Button";
 import { Field } from "@/shared/ui/Field";
+import { Blueprint } from "@/shared/ui/Blueprint";
 
 export function RegisterPage() {
   const [name, setName] = useState("");
@@ -17,7 +18,7 @@ export function RegisterPage() {
       <div className="w-full max-w-sm">
         <h1 className="text-4xl font-semibold text-steel-900">Criar conta</h1>
         <p className="mt-1 text-steel-500">Comece a organizar as suas obras hoje.</p>
-        <div className="mt-8 flex flex-col gap-4">
+        <Blueprint className="mt-8 flex flex-col gap-4 bg-white p-4">
           <Field id="name" label="O seu nome" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} />
           <Field id="organizationName" label="Nome da empresa" autoComplete="organization" value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} />
           <Field id="email" label="Email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -33,7 +34,7 @@ export function RegisterPage() {
           <p className="text-center text-sm text-steel-500">
             Já tem conta? <Link to="/login" className="font-medium text-steel-700 hover:text-steel-900">Entrar</Link>
           </p>
-        </div>
+        </Blueprint>
       </div>
     </main>
   );

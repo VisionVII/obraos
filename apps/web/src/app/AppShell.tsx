@@ -50,7 +50,7 @@ function Topbar() {
   const { data: user } = useSession();
   const logout = useLogout();
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="sticky -top-4 z-10 -mx-4 flex items-center justify-between gap-4 border-b border-concrete-200 bg-concrete-100/80 px-4 py-3 backdrop-blur md:-top-8 md:-mx-8 md:px-8">
       <div className="md:hidden font-display text-xl font-semibold text-steel-900">ObraOS</div>
       <div className="hidden md:block" />
       <div className="flex items-center gap-3">

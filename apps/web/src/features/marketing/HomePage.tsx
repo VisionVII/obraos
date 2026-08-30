@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSession } from "@/features/auth/use-session";
 import { buttonClassName } from "@/shared/ui/Button";
+import { Blueprint } from "@/shared/ui/Blueprint";
 
 const WORKFLOW = ["Cliente", "Orçamento", "Obra", "Trabalho", "Custos", "Pagamentos", "Conclusão"];
 
@@ -89,10 +90,10 @@ export function HomePage() {
           <h2 className="text-center text-3xl font-semibold text-steel-900">Feito para o terreno, não para o escritório</h2>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {FEATURES.map((f) => (
-              <div key={f.title} className="rounded-lg border border-concrete-200 bg-white p-6">
+              <Blueprint key={f.title} className="bg-white p-6">
                 <h3 className="text-lg font-semibold text-steel-900">{f.title}</h3>
                 <p className="mt-2 text-steel-500">{f.text}</p>
-              </div>
+              </Blueprint>
             ))}
           </div>
         </section>
