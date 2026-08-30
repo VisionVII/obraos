@@ -1,7 +1,10 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { loginSchema, registerSchema, resendVerificationSchema, sessionUserSchema, verifyEmailSchema } from "@obraos/shared";
+import {
+  forgotPasswordSchema, loginSchema, registerSchema, resendVerificationSchema,
+  resetPasswordSchema, sessionUserSchema, verifyEmailSchema,
+} from "@obraos/shared";
 import { AuthService } from "./auth.service.js";
 import { SessionStore } from "../../core/tenancy/session.js";
 import { SESSION_COOKIE } from "../../core/tenancy/auth.plugin.js";
@@ -52,6 +55,22 @@ export async function authRoutes(app: FastifyInstance) {
   }, async (req, reply) => {
     await AuthService.resendVerification(req.body.email);
     return reply.status(202).send();
+  });
+
+  r.post("/auth/password/forgot", {
+    schema: { tags: ["auth"], body: forgotPasswordSchema, response: { 202: z.void() } },
+    config: { rateLimit: { max: 3, timeWindow: "15 minutes" } },
+  }, async (req, reply) => {
+    await AuthService.requestPasswordReset(req.body.email);
+    return reply.status(202).send();
+  });
+
+  r.post("/auth/password/reset", {
+    schema: { tags: ["auth"], body: resetPasswordSchema, response: { 204: z.void() } },
+    config: { rateLimit: { max: 10, timeWindow: "15 minutes" } },
+  }, async (req, reply) => {
+    await AuthService.resetPassword(req.body.token, req.body.password);
+    return reply.status(204).send();
   });
 
   r.get("/auth/me", {

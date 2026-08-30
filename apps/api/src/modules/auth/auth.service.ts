@@ -7,6 +7,8 @@ import { AppError } from "../../core/errors/app-error.js";
 import { env } from "../../core/config/env.js";
 import { consoleMailer } from "../../infra/mail/mailer.port.js";
 import { EmailVerificationStore } from "./verification.store.js";
+import { PasswordResetStore } from "./password-reset.store.js";
+import { SessionStore } from "../../core/tenancy/session.js";
 
 const slugify = (s: string) =>
   s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -73,5 +75,27 @@ export const AuthService = {
   async resendVerification(email: string): Promise<void> {
     const user = await adminDb.query.users.findFirst({ where: eq(users.email, email) });
     if (user && !user.emailVerifiedAt) await sendVerificationEmail(user.id, user.email);
+  },
+
+  /** Nunca revela se o email existe: responde sempre com sucesso. */
+  async requestPasswordReset(email: string): Promise<void> {
+    const user = await adminDb.query.users.findFirst({ where: eq(users.email, email) });
+    if (!user) return;
+    const token = await PasswordResetStore.create(user.id);
+    const link = `${env.WEB_BASE_URL}/reset-password?token=${token}`;
+    await consoleMailer.send({
+      to: user.email,
+      subject: "Repor a sua password — ObraOS",
+      text: `Pediu para repor a password. Escolha uma nova em: ${link}\n\nO link expira em 1 hora. Se não foi você, ignore este email.`,
+    });
+  },
+
+  /** Consome o token (single-use), define a nova password e revoga todas as sessões ativas. */
+  async resetPassword(token: string, password: string): Promise<void> {
+    const userId = await PasswordResetStore.consume(token);
+    if (!userId) throw new AppError("INVALID_RESET_TOKEN", "Link de reposição inválido ou expirado.", 400);
+    const passwordHash = await argon2.hash(password, { type: argon2.argon2id });
+    await adminDb.update(users).set({ passwordHash }).where(eq(users.id, userId));
+    await SessionStore.revokeAllForUser(userId);
   },
 };

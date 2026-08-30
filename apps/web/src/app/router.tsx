@@ -1,6 +1,10 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { AppShell } from "./AppShell";
 import { LoginPage } from "@/features/auth/LoginPage";
+import { RegisterPage } from "@/features/auth/RegisterPage";
+import { ForgotPasswordPage } from "@/features/auth/ForgotPasswordPage";
+import { ResetPasswordPage } from "@/features/auth/ResetPasswordPage";
+import { VerifyEmailPage } from "@/features/auth/VerifyEmailPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { useSession } from "@/features/auth/use-session";
 
@@ -16,6 +20,10 @@ const Placeholder = ({ title }: { title: string }) => (
 
 export const router = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
+  { path: "/forgot-password", element: <ForgotPasswordPage /> },
+  { path: "/reset-password", element: <ResetPasswordPage /> },
+  { path: "/verify-email", element: <VerifyEmailPage /> },
   {
     element: <RequireAuth />,
     children: [

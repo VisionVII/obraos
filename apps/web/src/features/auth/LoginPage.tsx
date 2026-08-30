@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "./use-session";
 import { Button } from "@/shared/ui/Button";
 import { Field } from "@/shared/ui/Field";
@@ -26,6 +26,10 @@ export function LoginPage() {
           >
             {login.isPending ? "A entrar…" : "Entrar"}
           </Button>
+          <div className="flex items-center justify-between text-sm">
+            <Link to="/forgot-password" className="text-steel-500 hover:text-steel-900">Esqueceu a password?</Link>
+            <Link to="/register" className="font-medium text-steel-700 hover:text-steel-900">Criar conta</Link>
+          </div>
         </div>
       </div>
     </main>
