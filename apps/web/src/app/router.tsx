@@ -7,6 +7,8 @@ import { ForgotPasswordPage } from "@/features/auth/ForgotPasswordPage";
 import { ResetPasswordPage } from "@/features/auth/ResetPasswordPage";
 import { VerifyEmailPage } from "@/features/auth/VerifyEmailPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
+import { ClientsPage } from "@/features/clients/ClientsPage";
+import { ClientFormPage } from "@/features/clients/ClientFormPage";
 import { useSession } from "@/features/auth/use-session";
 
 function RequireAuth() {
@@ -36,7 +38,9 @@ export const router = createBrowserRouter([
           { index: true, element: <DashboardPage /> },
           { path: "obras", element: <Placeholder title="Obras" /> },
           { path: "agenda", element: <Placeholder title="Agenda" /> },
-          { path: "clientes", element: <Placeholder title="Clientes" /> },
+          { path: "clientes", element: <ClientsPage /> },
+          { path: "clientes/novo", element: <ClientFormPage /> },
+          { path: "clientes/:id", element: <ClientFormPage /> },
           { path: "orcamentos", element: <Placeholder title="Orçamentos" /> },
           { path: "financeiro", element: <Placeholder title="Financeiro" /> },
           { path: "documentos", element: <Placeholder title="Documentos" /> },

@@ -1,15 +1,18 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { Permission, type Role, hasPermission } from "@obraos/shared";
 import { useLogout, useResendVerification, useSession } from "@/features/auth/use-session";
 import { Button } from "@/shared/ui/Button";
 
-const nav = [
+type NavItem = { to: string; label: string; permission?: Permission };
+
+const nav: NavItem[] = [
   { to: "/app", label: "Dashboard" },
   { to: "/app/obras", label: "Obras" },
   { to: "/app/agenda", label: "Agenda" },
-  { to: "/app/clientes", label: "Clientes" },
+  { to: "/app/clientes", label: "Clientes", permission: Permission.CLIENTS_READ },
   { to: "/app/mais", label: "Mais" },
 ];
-const desktopOnly = [
+const desktopOnly: NavItem[] = [
   { to: "/app/orcamentos", label: "Orçamentos" },
   { to: "/app/financeiro", label: "Financeiro" },
   { to: "/app/documentos", label: "Documentos" },
@@ -60,13 +63,19 @@ function Topbar() {
   );
 }
 
+/** A matriz RBAC partilhada só esconde UI; a decisão real é sempre no backend. */
+const visibleTo = (role: Role | undefined, item: { permission?: Permission }) =>
+  !item.permission || (!!role && hasPermission(role, item.permission));
+
 /** Desktop: sidebar. Mobile: barra inferior com 5 destinos. */
 export function AppShell() {
+  const { data: user } = useSession();
+
   return (
     <div className="min-h-dvh md:grid md:grid-cols-[220px_1fr]">
       <aside className="hidden md:flex flex-col gap-1 bg-steel-700 p-3">
         <div className="font-display text-2xl font-semibold text-concrete-50 px-3 py-4">ObraOS</div>
-        {[...nav.filter((n) => n.to !== "/app/mais"), ...desktopOnly].map((n) => (
+        {[...nav.filter((n) => n.to !== "/app/mais"), ...desktopOnly].filter((n) => visibleTo(user?.role, n)).map((n) => (
           <NavLink key={n.to} to={n.to} end={n.to === "/app"} className={linkCls}>{n.label}</NavLink>
         ))}
       </aside>
@@ -76,7 +85,7 @@ export function AppShell() {
         <Outlet />
       </main>
       <nav className="md:hidden fixed inset-x-0 bottom-0 grid grid-cols-5 bg-steel-700 pb-[env(safe-area-inset-bottom)]" aria-label="Principal">
-        {nav.map((n) => (
+        {nav.filter((n) => visibleTo(user?.role, n)).map((n) => (
           <NavLink key={n.to} to={n.to} end={n.to === "/app"}
             className={({ isActive }) => `min-h-[56px] flex items-center justify-center text-sm font-medium ${isActive ? "text-signal" : "text-concrete-200"}`}>
             {n.label}
