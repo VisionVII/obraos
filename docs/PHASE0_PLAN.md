@@ -14,7 +14,9 @@ Objetivo: base segura e testada sobre a qual a Fase 1 (Core) constrói sem tocar
 | 0.8 | Audit log imutável | ✅ código | UPDATE/DELETE em `audit_logs` falha com role app |
 | 0.9 | Design system: tokens, Button, Field, Stat, Shell | ✅ | 360px sem scroll horizontal; foco visível; páginas de login/registo/recuperação/verificação e topbar com logout |
 | 0.10 | Observabilidade: logs pino, /health, /ready | ✅ | /ready devolve 503 se Redis cair |
-| 0.11 | Testes base: unit (RBAC), integration (RLS), E2E esqueleto (Playwright) | parcial | E2E: registo → login → criar cliente |
+| 0.11 | Testes base: unit (RBAC), integration (RLS), E2E esqueleto (Playwright) | ✅ | E2E: registo → login → criar cliente |
 | 0.12 | Docs + ADRs | ✅ | este diretório |
 
 Ordem sugerida: 0.2 → 0.5 → 0.6 → 0.11 → gate de saída da Fase 0 (CI verde, RLS testado, sem `adminDb` fora de auth/infra).
+
+**Gate de saída da Fase 0: atingido.** CI verde (lint, typecheck, testes de integração RLS/auth, build, E2E), sem `adminDb` fora de `modules/auth` e `infra/db`. A Fase 1 pode começar sobre esta base sem tocar em infraestrutura.

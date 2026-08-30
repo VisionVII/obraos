@@ -2,7 +2,7 @@ import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import {
-  forgotPasswordSchema, loginSchema, registerSchema, resendVerificationSchema,
+  changePasswordSchema, forgotPasswordSchema, loginSchema, registerSchema, resendVerificationSchema,
   resetPasswordSchema, sessionUserSchema, verifyEmailSchema,
 } from "@obraos/shared";
 import { AuthService } from "./auth.service.js";
@@ -71,6 +71,16 @@ export async function authRoutes(app: FastifyInstance) {
   }, async (req, reply) => {
     await AuthService.resetPassword(req.body.token, req.body.password);
     return reply.status(204).send();
+  });
+
+  r.post("/auth/password/change", {
+    schema: { tags: ["auth"], body: changePasswordSchema, response: { 200: z.object({ user: sessionUserSchema }) } },
+    preHandler: app.requireAuth,
+    config: { rateLimit: { max: 5, timeWindow: "15 minutes" } },
+  }, async (req, reply) => {
+    await AuthService.changePassword(req.user!.id, req.body.currentPassword, req.body.newPassword);
+    const token = await SessionStore.create(req.user!);
+    return reply.setCookie(SESSION_COOKIE, token, cookieOpts).send({ user: req.user! });
   });
 
   r.get("/auth/me", {

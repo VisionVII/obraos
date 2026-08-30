@@ -9,6 +9,7 @@ import { VerifyEmailPage } from "@/features/auth/VerifyEmailPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { ClientsPage } from "@/features/clients/ClientsPage";
 import { ClientFormPage } from "@/features/clients/ClientFormPage";
+import { SettingsPage } from "@/features/settings/SettingsPage";
 import { useSession } from "@/features/auth/use-session";
 
 function RequireAuth() {
@@ -45,7 +46,7 @@ export const router = createBrowserRouter([
           { path: "financeiro", element: <Placeholder title="Financeiro" /> },
           { path: "documentos", element: <Placeholder title="Documentos" /> },
           { path: "equipa", element: <Placeholder title="Equipa" /> },
-          { path: "definicoes", element: <Placeholder title="Definições" /> },
+          { path: "definicoes", element: <SettingsPage /> },
           { path: "mais", element: <Placeholder title="Mais" /> },
         ],
       },

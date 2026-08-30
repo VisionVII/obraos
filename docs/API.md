@@ -22,6 +22,7 @@ Códigos em `@obraos/shared` (`ErrorCode`). Nunca stack traces.
 | POST | /auth/email/resend | — (3/15min) |
 | POST | /auth/password/forgot | — (3/15min) |
 | POST | /auth/password/reset | — (10/15min) |
+| POST | /auth/password/change | sessão (5/15min) |
 | GET/POST | /clients | clients:read / clients:write |
 | GET/PATCH/DELETE | /clients/:id | clients:read / clients:write |
 | GET | /health, /ready | — |

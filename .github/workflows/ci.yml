@@ -18,6 +18,7 @@ jobs:
     env:
       API_BASE_URL: http://localhost:3000
       WEB_BASE_URL: http://localhost:5173
+      VITE_API_URL: http://localhost:3000
       DATABASE_URL: postgres://obraos:obraos@localhost:5432/obraos
       DATABASE_APP_URL: postgres://obraos_app:obraos_app@localhost:5432/obraos
       REDIS_URL: redis://localhost:6379
@@ -35,3 +36,5 @@ jobs:
       - run: pnpm db:migrate
       - run: pnpm test
       - run: pnpm build
+      - run: pnpm --filter @obraos/web exec playwright install --with-deps chromium
+      - run: pnpm --filter @obraos/web test:e2e

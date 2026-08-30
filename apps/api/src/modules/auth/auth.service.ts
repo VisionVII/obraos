@@ -98,4 +98,15 @@ export const AuthService = {
     await adminDb.update(users).set({ passwordHash }).where(eq(users.id, userId));
     await SessionStore.revokeAllForUser(userId);
   },
+
+  /** Utilizador autenticado a mudar a própria password. Revoga as restantes sessões. */
+  async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<void> {
+    const user = await adminDb.query.users.findFirst({ where: eq(users.id, userId) });
+    if (!user) throw AppError.unauthenticated();
+    const ok = await argon2.verify(user.passwordHash, currentPassword);
+    if (!ok) throw new AppError("INVALID_CREDENTIALS", "Password atual incorreta.", 401);
+    const passwordHash = await argon2.hash(newPassword, { type: argon2.argon2id });
+    await adminDb.update(users).set({ passwordHash }).where(eq(users.id, userId));
+    await SessionStore.revokeAllForUser(userId);
+  },
 };

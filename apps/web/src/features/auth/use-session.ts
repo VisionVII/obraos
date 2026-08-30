@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type {
-  ForgotPasswordInput, LoginInput, RegisterInput, ResendVerificationInput,
+  ChangePasswordInput, ForgotPasswordInput, LoginInput, RegisterInput, ResendVerificationInput,
   ResetPasswordInput, SessionUser, VerifyEmailInput,
 } from "@obraos/shared";
 import { api } from "@/shared/api/http";
@@ -59,5 +59,13 @@ export function useVerifyEmail() {
 export function useResendVerification() {
   return useMutation({
     mutationFn: (input: ResendVerificationInput) => api<void>("/auth/email/resend", { method: "POST", json: input }),
+  });
+}
+
+export function useChangePassword() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (input: ChangePasswordInput) => api<{ user: SessionUser }>("/auth/password/change", { method: "POST", json: input }),
+    onSuccess: ({ user }) => qc.setQueryData(KEY, user),
   });
 }
