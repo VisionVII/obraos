@@ -26,7 +26,7 @@ export function RegisterPage() {
           <Button
             variant="signal"
             disabled={register.isPending}
-            onClick={() => register.mutate({ name, organizationName, email, password }, { onSuccess: () => nav("/") })}
+            onClick={() => register.mutate({ name, organizationName, email, password }, { onSuccess: () => nav("/app") })}
           >
             {register.isPending ? "A criar conta…" : "Criar conta"}
           </Button>

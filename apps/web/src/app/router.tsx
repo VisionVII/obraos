@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { AppShell } from "./AppShell";
+import { HomePage } from "@/features/marketing/HomePage";
 import { LoginPage } from "@/features/auth/LoginPage";
 import { RegisterPage } from "@/features/auth/RegisterPage";
 import { ForgotPasswordPage } from "@/features/auth/ForgotPasswordPage";
@@ -19,27 +20,29 @@ const Placeholder = ({ title }: { title: string }) => (
 );
 
 export const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
   { path: "/login", element: <LoginPage /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/forgot-password", element: <ForgotPasswordPage /> },
   { path: "/reset-password", element: <ResetPasswordPage /> },
   { path: "/verify-email", element: <VerifyEmailPage /> },
   {
+    path: "/app",
     element: <RequireAuth />,
     children: [
       {
         element: <AppShell />,
         children: [
-          { path: "/", element: <DashboardPage /> },
-          { path: "/obras", element: <Placeholder title="Obras" /> },
-          { path: "/agenda", element: <Placeholder title="Agenda" /> },
-          { path: "/clientes", element: <Placeholder title="Clientes" /> },
-          { path: "/orcamentos", element: <Placeholder title="Orçamentos" /> },
-          { path: "/financeiro", element: <Placeholder title="Financeiro" /> },
-          { path: "/documentos", element: <Placeholder title="Documentos" /> },
-          { path: "/equipa", element: <Placeholder title="Equipa" /> },
-          { path: "/definicoes", element: <Placeholder title="Definições" /> },
-          { path: "/mais", element: <Placeholder title="Mais" /> },
+          { index: true, element: <DashboardPage /> },
+          { path: "obras", element: <Placeholder title="Obras" /> },
+          { path: "agenda", element: <Placeholder title="Agenda" /> },
+          { path: "clientes", element: <Placeholder title="Clientes" /> },
+          { path: "orcamentos", element: <Placeholder title="Orçamentos" /> },
+          { path: "financeiro", element: <Placeholder title="Financeiro" /> },
+          { path: "documentos", element: <Placeholder title="Documentos" /> },
+          { path: "equipa", element: <Placeholder title="Equipa" /> },
+          { path: "definicoes", element: <Placeholder title="Definições" /> },
+          { path: "mais", element: <Placeholder title="Mais" /> },
         ],
       },
     ],

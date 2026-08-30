@@ -30,7 +30,7 @@ export function VerifyEmailPage() {
         {verifyEmail.isSuccess && (
           <>
             <p className="mt-4 text-ok">Email verificado com sucesso.</p>
-            <Link to="/" className="mt-6 inline-block font-medium text-steel-700 hover:text-steel-900">Ir para a dashboard</Link>
+            <Link to="/app" className="mt-6 inline-block font-medium text-steel-700 hover:text-steel-900">Ir para a dashboard</Link>
           </>
         )}
 

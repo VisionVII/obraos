@@ -22,7 +22,7 @@ export function LoginPage() {
           <Button
             variant="signal"
             disabled={login.isPending}
-            onClick={() => login.mutate({ email, password }, { onSuccess: () => nav("/") })}
+            onClick={() => login.mutate({ email, password }, { onSuccess: () => nav("/app") })}
           >
             {login.isPending ? "A entrar…" : "Entrar"}
           </Button>
