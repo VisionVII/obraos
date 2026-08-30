@@ -20,5 +20,16 @@ export const sessionUserSchema = z.object({
   email: z.string().email(),
   organizationId: z.string().uuid(),
   role: z.enum(['owner', 'admin', 'manager', 'worker', 'subcontractor', 'client']),
+  emailVerified: z.boolean(),
 });
 export type SessionUser = z.infer<typeof sessionUserSchema>;
+
+export const verifyEmailSchema = z.object({
+  token: z.string().min(1),
+});
+export type VerifyEmailInput = z.infer<typeof verifyEmailSchema>;
+
+export const resendVerificationSchema = z.object({
+  email: z.string().trim().toLowerCase().email(),
+});
+export type ResendVerificationInput = z.infer<typeof resendVerificationSchema>;

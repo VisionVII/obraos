@@ -13,6 +13,7 @@ export const ErrorCode = {
   WORK_NOT_FOUND: 'WORK_NOT_FOUND',
   INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
   EMAIL_ALREADY_IN_USE: 'EMAIL_ALREADY_IN_USE',
+  INVALID_VERIFICATION_TOKEN: 'INVALID_VERIFICATION_TOKEN',
 } as const;
 export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];
 

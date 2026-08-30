@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { loginSchema, registerSchema, sessionUserSchema } from "@obraos/shared";
+import { loginSchema, registerSchema, resendVerificationSchema, sessionUserSchema, verifyEmailSchema } from "@obraos/shared";
 import { AuthService } from "./auth.service.js";
 import { SessionStore } from "../../core/tenancy/session.js";
 import { SESSION_COOKIE } from "../../core/tenancy/auth.plugin.js";
@@ -36,6 +36,22 @@ export async function authRoutes(app: FastifyInstance) {
     const token = req.cookies[SESSION_COOKIE];
     if (token) await SessionStore.revoke(token);
     return reply.clearCookie(SESSION_COOKIE, { path: "/" }).status(204).send();
+  });
+
+  r.post("/auth/email/verify", {
+    schema: { tags: ["auth"], body: verifyEmailSchema, response: { 204: z.void() } },
+    config: { rateLimit: { max: 10, timeWindow: "15 minutes" } },
+  }, async (req, reply) => {
+    await AuthService.verifyEmail(req.body.token);
+    return reply.status(204).send();
+  });
+
+  r.post("/auth/email/resend", {
+    schema: { tags: ["auth"], body: resendVerificationSchema, response: { 202: z.void() } },
+    config: { rateLimit: { max: 3, timeWindow: "15 minutes" } },
+  }, async (req, reply) => {
+    await AuthService.resendVerification(req.body.email);
+    return reply.status(202).send();
   });
 
   r.get("/auth/me", {

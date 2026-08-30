@@ -18,6 +18,8 @@ Códigos em `@obraos/shared` (`ErrorCode`). Nunca stack traces.
 | POST | /auth/login | — (10/15min) |
 | POST | /auth/logout | sessão |
 | GET | /auth/me | sessão |
+| POST | /auth/email/verify | — (10/15min) |
+| POST | /auth/email/resend | — (3/15min) |
 | GET/POST | /clients | clients:read / clients:write |
 | GET/PATCH/DELETE | /clients/:id | clients:read / clients:write |
 | GET | /health, /ready | — |
