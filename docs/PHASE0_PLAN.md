@@ -5,7 +5,7 @@ Objetivo: base segura e testada sobre a qual a Fase 1 (Core) constrói sem tocar
 | # | entregável | estado | critério de aceitação |
 |---|---|---|---|
 | 0.1 | Monorepo, compose, CI | ✅ scaffold | `pnpm install && pnpm build` verde em CI |
-| 0.2 | Schema base + 1ª migration | ⏳ | `pnpm db:generate` produz SQL com políticas RLS; `db:migrate` corre em CI |
+| 0.2 | Schema base + 1ª migration | ✅ | `pnpm db:generate` produz SQL com políticas RLS; `db:migrate` corre em CI |
 | 0.3 | RLS + role `obraos_app` | ✅ código | `tenancy.integration.test.ts` verde |
 | 0.4 | Auth: registo, login, logout, me | ✅ código | E2E: criar conta → /me devolve user |
 | 0.5 | Verificação de email | ⏳ | token único, expira em 24h, reenvio com rate limit |
