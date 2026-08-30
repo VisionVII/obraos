@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { color-scheme: light; }
+  h1, h2, h3 { @apply font-display tracking-tight; }
+  *:focus-visible { @apply outline-none ring-2 ring-signal ring-offset-2 ring-offset-concrete-100; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+}

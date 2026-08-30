@@ -1,0 +1,21 @@
+/** Códigos de erro previsíveis devolvidos pela API. Nunca expor stack traces. */
+export const ErrorCode = {
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  UNAUTHENTICATED: 'UNAUTHENTICATED',
+  FORBIDDEN: 'FORBIDDEN',
+  NOT_FOUND: 'NOT_FOUND',
+  CONFLICT: 'CONFLICT',
+  RATE_LIMITED: 'RATE_LIMITED',
+  INTERNAL: 'INTERNAL',
+  ORGANIZATION_NOT_FOUND: 'ORGANIZATION_NOT_FOUND',
+  CLIENT_NOT_FOUND: 'CLIENT_NOT_FOUND',
+  QUOTE_NOT_FOUND: 'QUOTE_NOT_FOUND',
+  WORK_NOT_FOUND: 'WORK_NOT_FOUND',
+  INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
+  EMAIL_ALREADY_IN_USE: 'EMAIL_ALREADY_IN_USE',
+} as const;
+export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];
+
+export interface ApiErrorBody {
+  error: { code: ErrorCode; message: string; details?: unknown };
+}

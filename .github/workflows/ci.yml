@@ -1,0 +1,35 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env: { POSTGRES_USER: obraos, POSTGRES_PASSWORD: obraos, POSTGRES_DB: obraos }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U obraos" --health-interval 5s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+    env:
+      DATABASE_URL: postgres://obraos:obraos@localhost:5432/obraos
+      DATABASE_APP_URL: postgres://obraos_app:obraos_app@localhost:5432/obraos
+      REDIS_URL: redis://localhost:6379
+      SESSION_SECRET: ci-only-secret-not-for-production-0000000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 11 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: psql "$DATABASE_URL" -f scripts/init-db.sql
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm db:migrate
+      - run: pnpm test
+      - run: pnpm build
